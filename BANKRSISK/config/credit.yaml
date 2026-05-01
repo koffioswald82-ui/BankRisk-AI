@@ -1,0 +1,80 @@
+# ═══════════════════════════════════════════════════════════════
+#  CREDIT RISK SCORING — Configuration complète
+#  Modifiez ce fichier pour adapter à un nouveau dataset de crédit
+# ═══════════════════════════════════════════════════════════════
+
+dataset:
+  file: loan_dataset.csv
+  target_col: Current_loan_status
+  positive_class: "DEFAULT"     # valeur qui = défaut
+  id_cols: [customer_id]
+  drop_cols: []
+
+  # Colonnes et leur rôle — modifiable si le dataset change
+  numeric_cols:
+    - customer_age
+    - customer_income
+    - employment_duration
+    - loan_amnt
+    - loan_int_rate
+    - term_years
+    - cred_hist_length
+
+  categorical_ohe:              # encodage One-Hot
+    - home_ownership
+    - loan_intent
+
+  categorical_ordinal:          # encodage ordinal (ordre impose)
+    - name: loan_grade
+      order: [A, B, C, D, E, F, G]
+
+  binary_cols:                  # Y/N → 1/0
+    - name: historical_default
+      yes: "Y"
+      no: "N"
+
+  currency_cols:                # colonnes avec symboles £ $ €
+    - loan_amnt
+
+features:
+  engineered:
+    - name: debt_to_income
+      expr: "loan_amnt / (customer_income + 1)"
+    - name: monthly_payment_est
+      expr: "annuity(loan_amnt, loan_int_rate, term_years)"   # fonction custom
+    - name: income_per_year_emp
+      expr: "customer_income / clip(employment_duration, 1)"
+    - name: grade_numeric
+      expr: "grade_rank(loan_grade)"                          # fonction custom
+    - name: loan_to_cred_hist
+      expr: "loan_amnt / clip(cred_hist_length, 1)"
+
+model:
+  algorithm: xgboost
+  xgb:
+    n_estimators: 400
+    max_depth: 5
+    learning_rate: 0.05
+    subsample: 0.80
+    colsample_bytree: 0.80
+  rf:
+    n_estimators: 300
+    max_depth: 12
+  test_size: 0.20
+  random_state: 42
+
+cost:
+  avg_loan_amount: 15000.0
+  loss_given_default: 0.45      # LGD Basel III
+  cost_per_rejected_good: 200.0 # coût opportunité d'un bon dossier rejeté
+  underwriting_cost: 100.0      # coût de traitement manuel d'un dossier
+  annual_applications: 50000
+  baseline_default_rate: null   # null = calculé depuis le dataset
+
+labels:
+  module: "Risque Crédit"
+  positive: "Défaut"
+  negative: "Remboursement normal"
+  unit_fn_label: "perte par défaut approuvé"
+  unit_fp_label: "coût opportunité bon dossier rejeté"
+  volume_label: "dossiers / an"

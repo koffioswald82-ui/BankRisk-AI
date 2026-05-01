@@ -1,0 +1,122 @@
+{
+  "ks_statistic": 0.7562,
+  "threshold_0.5": {
+    "auc_roc": 0.9482,
+    "auc_pr": 0.8941,
+    "gini": 0.8963,
+    "precision": 0.8007,
+    "recall": 0.7996,
+    "f1": 0.8001,
+    "specificity": 0.9472,
+    "tp": 1093,
+    "fp": 272,
+    "tn": 4877,
+    "fn": 274,
+    "threshold": 0.5
+  },
+  "threshold_opt_f1": {
+    "auc_roc": 0.9482,
+    "auc_pr": 0.8941,
+    "gini": 0.8963,
+    "precision": 0.9129,
+    "recall": 0.744,
+    "f1": 0.8198,
+    "specificity": 0.9812,
+    "tp": 1017,
+    "fp": 97,
+    "tn": 5052,
+    "fn": 350,
+    "threshold": 0.6748
+  },
+  "threshold_cost": {
+    "auc_roc": 0.9482,
+    "auc_pr": 0.8941,
+    "gini": 0.8963,
+    "precision": 0.3337,
+    "recall": 0.9832,
+    "f1": 0.4983,
+    "specificity": 0.4789,
+    "tp": 1344,
+    "fp": 2683,
+    "tn": 2466,
+    "fn": 23,
+    "threshold": 0.1062
+  },
+  "cost_savings": {
+    "annual_applications": 50000,
+    "baseline_defaults": 10490,
+    "baseline_annual_cost": 70807500.0,
+    "ml_fn_approved_defaulters": 176,
+    "ml_fp_rejected_good": 20587,
+    "ml_annual_cost": 5805400.0,
+    "annual_savings": 65002100.0,
+    "roi_pct": 91.8,
+    "avg_loan_amount": 15000.0,
+    "loss_given_default": 0.45
+  },
+  "model_name": "xgboost",
+  "shap_summary": {
+    "top_features": [
+      {
+        "feature": "debt_to_income",
+        "mean_shap": 0.6796
+      },
+      {
+        "feature": "customer_income",
+        "mean_shap": 0.66761
+      },
+      {
+        "feature": "grade_numeric",
+        "mean_shap": 0.55509
+      },
+      {
+        "feature": "loan_int_rate",
+        "mean_shap": 0.48461
+      },
+      {
+        "feature": "home_ownership_RENT",
+        "mean_shap": 0.37549
+      },
+      {
+        "feature": "home_ownership_OWN",
+        "mean_shap": 0.31522
+      },
+      {
+        "feature": "customer_age",
+        "mean_shap": 0.28014
+      },
+      {
+        "feature": "loan_intent_VENTURE",
+        "mean_shap": 0.26288
+      },
+      {
+        "feature": "loan_intent_DEBTCONSOLIDATION",
+        "mean_shap": 0.24418
+      },
+      {
+        "feature": "loan_grade_ord",
+        "mean_shap": 0.15119
+      },
+      {
+        "feature": "loan_intent_HOMEIMPROVEMENT",
+        "mean_shap": 0.14738
+      },
+      {
+        "feature": "employment_duration",
+        "mean_shap": 0.12207
+      },
+      {
+        "feature": "loan_amnt",
+        "mean_shap": 0.09716
+      },
+      {
+        "feature": "loan_intent_MEDICAL",
+        "mean_shap": 0.08872
+      },
+      {
+        "feature": "income_per_year_emp",
+        "mean_shap": 0.0848
+      }
+    ]
+  }
+}

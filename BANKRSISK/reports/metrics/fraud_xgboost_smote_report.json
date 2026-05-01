@@ -1,0 +1,123 @@
+{
+  "threshold_0.5": {
+    "auc_roc": 0.9615,
+    "auc_pr": 0.8062,
+    "gini": 0.923,
+    "precision": 0.7143,
+    "recall": 0.7895,
+    "f1": 0.75,
+    "specificity": 0.9995,
+    "tp": 75,
+    "fp": 30,
+    "tn": 56621,
+    "fn": 20,
+    "threshold": 0.5
+  },
+  "threshold_opt_f1": {
+    "auc_roc": 0.9615,
+    "auc_pr": 0.8062,
+    "gini": 0.923,
+    "precision": 0.96,
+    "recall": 0.7579,
+    "f1": 0.8471,
+    "specificity": 0.9999,
+    "tp": 72,
+    "fp": 3,
+    "tn": 56648,
+    "fn": 23,
+    "threshold": 0.99
+  },
+  "threshold_cost": {
+    "auc_roc": 0.9615,
+    "auc_pr": 0.8062,
+    "gini": 0.923,
+    "precision": 0.5132,
+    "recall": 0.8211,
+    "f1": 0.6316,
+    "specificity": 0.9987,
+    "tp": 78,
+    "fp": 74,
+    "tn": 56577,
+    "fn": 17,
+    "threshold": 0.1514
+  },
+  "cost_savings": {
+    "annual_tx": 10000000,
+    "annual_fraud": 16671,
+    "legacy_fp_alerts": 499166,
+    "legacy_fn_missed": 2500,
+    "legacy_annual_cost": 3120830.0,
+    "ml_fp_alerts": 13040,
+    "ml_fn_missed": 2995,
+    "ml_annual_cost": 813950.0,
+    "annual_savings": 2306880.0,
+    "roi_pct": 73.9,
+    "unit_fp": 5.0,
+    "unit_fn": 250.0
+  },
+  "model_name": "xgboost_smote",
+  "shap_summary": {
+    "top_features": [
+      {
+        "feature": "V14",
+        "mean_shap": 2.46531
+      },
+      {
+        "feature": "V4",
+        "mean_shap": 1.91527
+      },
+      {
+        "feature": "hour_cos",
+        "mean_shap": 1.49982
+      },
+      {
+        "feature": "V3",
+        "mean_shap": 1.3457
+      },
+      {
+        "feature": "V12",
+        "mean_shap": 1.33329
+      },
+      {
+        "feature": "V11",
+        "mean_shap": 1.25574
+      },
+      {
+        "feature": "hour_sin",
+        "mean_shap": 1.20746
+      },
+      {
+        "feature": "V10",
+        "mean_shap": 0.84975
+      },
+      {
+        "feature": "V1",
+        "mean_shap": 0.81676
+      },
+      {
+        "feature": "V8",
+        "mean_shap": 0.79582
+      },
+      {
+        "feature": "V18",
+        "mean_shap": 0.63787
+      },
+      {
+        "feature": "Amount_log",
+        "mean_shap": 0.62133
+      },
+      {
+        "feature": "V22",
+        "mean_shap": 0.48017
+      },
+      {
+        "feature": "V5",
+        "mean_shap": 0.45446
+      },
+      {
+        "feature": "V17",
+        "mean_shap": 0.45446
+      }
+    ]
+  }
+}

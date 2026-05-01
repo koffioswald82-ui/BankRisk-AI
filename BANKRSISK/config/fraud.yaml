@@ -1,0 +1,62 @@
+# ═══════════════════════════════════════════════════════════════
+#  FRAUD DETECTION — Configuration complète
+#  Modifiez ce fichier pour adapter à un nouveau dataset de fraude
+# ═══════════════════════════════════════════════════════════════
+
+dataset:
+  file: creditcard.csv          # relatif à data/raw/
+  target_col: Class
+  positive_class: 1             # valeur qui = fraude
+  id_cols: []
+  drop_cols: []
+  numeric_cols_to_scale: [Time, Amount]   # colonnes brutes à normaliser
+  pca_prefix: "V"               # colonnes commençant par V = features PCA (déjà normalisées)
+
+features:
+  # Chaque feature engineered est évaluée dynamiquement sur le DataFrame
+  engineered:
+    - name: Amount_log
+      expr: "log1p(Amount)"
+    - name: is_high_value
+      expr: "Amount > Amount.quantile(0.95)"
+      cast: int
+    - name: is_round_amount
+      expr: "Amount % 1 == 0"
+      cast: int
+    - name: hour_sin
+      expr: "sin(2 * 3.14159 * (Time % 86400) / 86400)"
+    - name: hour_cos
+      expr: "cos(2 * 3.14159 * (Time % 86400) / 86400)"
+    - name: amount_hour_zscore
+      expr: "Amount_zscore_by_hour"   # handled by custom function in features.py
+
+model:
+  algorithm: xgboost_smote      # options: logistic, random_forest, xgboost, xgboost_smote
+  smote_strategy: 0.10
+  xgb:
+    n_estimators: 500
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.80
+    colsample_bytree: 0.80
+  rf:
+    n_estimators: 200
+    max_depth: 10
+  test_size: 0.20
+  random_state: 42
+
+cost:
+  unit_fn: 250.0          # perte par fraude non détectée (faux négatif)
+  unit_fp: 5.0            # coût de revue manuelle (fausse alerte)
+  annual_volume: 10000000 # volume de transactions / an
+  baseline_fp_rate: 0.05  # taux FP du système legacy
+  baseline_recall: 0.85   # rappel du système legacy
+  fraud_rate: null        # null = calculé automatiquement depuis le dataset
+
+labels:
+  module: "Fraude AML"
+  positive: "Fraude"
+  negative: "Transaction légitime"
+  unit_fn_label: "perte fraude non détectée"
+  unit_fp_label: "coût revue manuelle"
+  volume_label: "transactions / an"

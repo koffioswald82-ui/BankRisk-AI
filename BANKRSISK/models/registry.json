@@ -1,0 +1,500 @@
+{
+  "fraud": {
+    "last_run": {
+      "timestamp": "2026-04-30T21:19:36.048005+00:00",
+      "config_hash": "238cc35e",
+      "config_labels": {
+        "module": "Fraude AML",
+        "positive": "Fraude",
+        "negative": "Transaction l\u00e9gitime",
+        "unit_fn_label": "perte fraude non d\u00e9tect\u00e9e",
+        "unit_fp_label": "co\u00fbt revue manuelle",
+        "volume_label": "transactions / an"
+      },
+      "config_cost": {
+        "unit_fn": 250.0,
+        "unit_fp": 5.0,
+        "annual_volume": 10000000,
+        "baseline_fp_rate": 0.05,
+        "baseline_recall": 0.85,
+        "fraud_rate": null
+      },
+      "dataset_info": {
+        "n_rows": 284807,
+        "n_cols": 31,
+        "numeric_cols": [
+          "Time",
+          "V1",
+          "V2",
+          "V3",
+          "V4",
+          "V5",
+          "V6",
+          "V7",
+          "V8",
+          "V9",
+          "V10",
+          "V11",
+          "V12",
+          "V13",
+          "V14",
+          "V15",
+          "V16",
+          "V17",
+          "V18",
+          "V19",
+          "V20",
+          "V21",
+          "V22",
+          "V23",
+          "V24",
+          "V25",
+          "V26",
+          "V27",
+          "V28",
+          "Amount"
+        ],
+        "categorical_cols": [],
+        "binary_cols": [],
+        "missing_cols": [],
+        "class_balance": {
+          "counts": {
+            "0": 284315,
+            "1": 492
+          },
+          "minority_rate": 0.001727,
+          "imbalance_ratio": 577.9,
+          "is_imbalanced": "True"
+        },
+        "target_col": "Class",
+        "fraud_rate": 0.001667101358352777
+      },
+      "model_path": "C:\\Users\\koffi\\BANKRSISK\\models\\fraud_champion.joblib",
+      "preprocessor_path": null,
+      "feature_names": [
+        "V1",
+        "V2",
+        "V3",
+        "V4",
+        "V5",
+        "V6",
+        "V7",
+        "V8",
+        "V9",
+        "V10",
+        "V11",
+        "V12",
+        "V13",
+        "V14",
+        "V15",
+        "V16",
+        "V17",
+        "V18",
+        "V19",
+        "V20",
+        "V21",
+        "V22",
+        "V23",
+        "V24",
+        "V25",
+        "V26",
+        "V27",
+        "V28",
+        "Time_scaled",
+        "Amount_scaled",
+        "Amount_log",
+        "is_high_value",
+        "is_round_amount",
+        "hour_sin",
+        "hour_cos",
+        "amount_hour_zscore"
+      ],
+      "shap_top_features": [
+        {
+          "feature": "V14",
+          "mean_shap": 2.46531
+        },
+        {
+          "feature": "V4",
+          "mean_shap": 1.91527
+        },
+        {
+          "feature": "hour_cos",
+          "mean_shap": 1.49982
+        },
+        {
+          "feature": "V3",
+          "mean_shap": 1.3457
+        },
+        {
+          "feature": "V12",
+          "mean_shap": 1.33329
+        },
+        {
+          "feature": "V11",
+          "mean_shap": 1.25574
+        },
+        {
+          "feature": "hour_sin",
+          "mean_shap": 1.20746
+        },
+        {
+          "feature": "V10",
+          "mean_shap": 0.84975
+        },
+        {
+          "feature": "V1",
+          "mean_shap": 0.81676
+        },
+        {
+          "feature": "V8",
+          "mean_shap": 0.79582
+        },
+        {
+          "feature": "V18",
+          "mean_shap": 0.63787
+        },
+        {
+          "feature": "Amount_log",
+          "mean_shap": 0.62133
+        },
+        {
+          "feature": "V22",
+          "mean_shap": 0.48017
+        },
+        {
+          "feature": "V5",
+          "mean_shap": 0.45446
+        },
+        {
+          "feature": "V17",
+          "mean_shap": 0.45446
+        }
+      ],
+      "metrics": {
+        "threshold_0.5": {
+          "auc_roc": 0.9615,
+          "auc_pr": 0.8062,
+          "gini": 0.923,
+          "precision": 0.7143,
+          "recall": 0.7895,
+          "f1": 0.75,
+          "specificity": 0.9995,
+          "tp": 75,
+          "fp": 30,
+          "tn": 56621,
+          "fn": 20,
+          "threshold": 0.5
+        },
+        "threshold_opt_f1": {
+          "auc_roc": 0.9615,
+          "auc_pr": 0.8062,
+          "gini": 0.923,
+          "precision": 0.96,
+          "recall": 0.7579,
+          "f1": 0.8471,
+          "specificity": 0.9999,
+          "tp": 72,
+          "fp": 3,
+          "tn": 56648,
+          "fn": 23,
+          "threshold": 0.99
+        },
+        "threshold_cost": {
+          "auc_roc": 0.9615,
+          "auc_pr": 0.8062,
+          "gini": 0.923,
+          "precision": 0.5132,
+          "recall": 0.8211,
+          "f1": 0.6316,
+          "specificity": 0.9987,
+          "tp": 78,
+          "fp": 74,
+          "tn": 56577,
+          "fn": 17,
+          "threshold": 0.1514
+        }
+      },
+      "cost_savings": {
+        "annual_tx": 10000000,
+        "annual_fraud": 16671,
+        "legacy_fp_alerts": 499166,
+        "legacy_fn_missed": 2500,
+        "legacy_annual_cost": 3120830.0,
+        "ml_fp_alerts": 13040,
+        "ml_fn_missed": 2995,
+        "ml_annual_cost": 813950.0,
+        "annual_savings": 2306880.0,
+        "roi_pct": 73.9,
+        "unit_fp": 5.0,
+        "unit_fn": 250.0
+      }
+    },
+    "history": [
+      {
+        "timestamp": "2026-04-30T20:17:18.102936+00:00",
+        "auc_roc": 0.9393,
+        "gini": 0.8785,
+        "annual_savings": 2150840.0
+      },
+      {
+        "timestamp": "2026-04-30T20:27:12.264036+00:00",
+        "auc_roc": 0.9393,
+        "gini": 0.8785,
+        "annual_savings": 2150840.0
+      },
+      {
+        "timestamp": "2026-04-30T20:48:08.145562+00:00",
+        "auc_roc": 0.9615,
+        "gini": 0.923,
+        "annual_savings": 2306880.0
+      },
+      {
+        "timestamp": "2026-04-30T21:19:36.048005+00:00",
+        "auc_roc": 0.9615,
+        "gini": 0.923,
+        "annual_savings": 2306880.0
+      }
+    ]
+  },
+  "credit": {
+    "last_run": {
+      "timestamp": "2026-04-30T21:21:30.849216+00:00",
+      "config_hash": "09e1ea31",
+      "config_labels": {
+        "module": "Risque Cr\u00e9dit",
+        "positive": "D\u00e9faut",
+        "negative": "Remboursement normal",
+        "unit_fn_label": "perte par d\u00e9faut approuv\u00e9",
+        "unit_fp_label": "co\u00fbt opportunit\u00e9 bon dossier rejet\u00e9",
+        "volume_label": "dossiers / an"
+      },
+      "config_cost": {
+        "avg_loan_amount": 15000.0,
+        "loss_given_default": 0.45,
+        "cost_per_rejected_good": 200.0,
+        "underwriting_cost": 100.0,
+        "annual_applications": 50000,
+        "baseline_default_rate": null
+      },
+      "dataset_info": {
+        "n_rows": 32586,
+        "n_cols": 13,
+        "numeric_cols": [
+          "customer_id",
+          "customer_age",
+          "employment_duration",
+          "loan_int_rate",
+          "term_years",
+          "cred_hist_length"
+        ],
+        "categorical_cols": [
+          "customer_income",
+          "home_ownership",
+          "loan_intent",
+          "loan_grade",
+          "loan_amnt",
+          "historical_default"
+        ],
+        "binary_cols": [],
+        "missing_cols": [
+          {
+            "column": "customer_id",
+            "missing_count": 3,
+            "missing_pct": 0.01
+          },
+          {
+            "column": "employment_duration",
+            "missing_count": 895,
+            "missing_pct": 2.75
+          },
+          {
+            "column": "loan_amnt",
+            "missing_count": 1,
+            "missing_pct": 0.0
+          },
+          {
+            "column": "loan_int_rate",
+            "missing_count": 3116,
+            "missing_pct": 9.56
+          },
+          {
+            "column": "historical_default",
+            "missing_count": 20737,
+            "missing_pct": 63.64
+          },
+          {
+            "column": "Current_loan_status",
+            "missing_count": 4,
+            "missing_pct": 0.01
+          }
+        ],
+        "class_balance": {
+          "counts": {
+            "NO DEFAULT": 25742,
+            "DEFAULT": 6840
+          },
+          "minority_rate": 0.209932,
+          "imbalance_ratio": 3.8,
+          "is_imbalanced": "False"
+        },
+        "target_col": "Current_loan_status",
+        "fraud_rate": 0.2098041623181288
+      },
+      "model_path": "C:\\Users\\koffi\\BANKRSISK\\models\\credit_champion.joblib",
+      "preprocessor_path": "C:\\Users\\koffi\\BANKRSISK\\models\\credit_preprocessor.joblib",
+      "feature_names": [
+        "customer_age",
+        "customer_income",
+        "employment_duration",
+        "loan_amnt",
+        "loan_int_rate",
+        "term_years",
+        "cred_hist_length",
+        "debt_to_income",
+        "monthly_payment_est",
+        "income_per_year_emp",
+        "grade_numeric",
+        "loan_to_cred_hist",
+        "home_ownership_MORTGAGE",
+        "home_ownership_OTHER",
+        "home_ownership_OWN",
+        "home_ownership_RENT",
+        "loan_intent_DEBTCONSOLIDATION",
+        "loan_intent_EDUCATION",
+        "loan_intent_HOMEIMPROVEMENT",
+        "loan_intent_MEDICAL",
+        "loan_intent_PERSONAL",
+        "loan_intent_VENTURE",
+        "loan_grade_ord"
+      ],
+      "shap_top_features": [
+        {
+          "feature": "debt_to_income",
+          "mean_shap": 0.6796
+        },
+        {
+          "feature": "customer_income",
+          "mean_shap": 0.66761
+        },
+        {
+          "feature": "grade_numeric",
+          "mean_shap": 0.55509
+        },
+        {
+          "feature": "loan_int_rate",
+          "mean_shap": 0.48461
+        },
+        {
+          "feature": "home_ownership_RENT",
+          "mean_shap": 0.37549
+        },
+        {
+          "feature": "home_ownership_OWN",
+          "mean_shap": 0.31522
+        },
+        {
+          "feature": "customer_age",
+          "mean_shap": 0.28014
+        },
+        {
+          "feature": "loan_intent_VENTURE",
+          "mean_shap": 0.26288
+        },
+        {
+          "feature": "loan_intent_DEBTCONSOLIDATION",
+          "mean_shap": 0.24418
+        },
+        {
+          "feature": "loan_grade_ord",
+          "mean_shap": 0.15119
+        },
+        {
+          "feature": "loan_intent_HOMEIMPROVEMENT",
+          "mean_shap": 0.14738
+        },
+        {
+          "feature": "employment_duration",
+          "mean_shap": 0.12207
+        },
+        {
+          "feature": "loan_amnt",
+          "mean_shap": 0.09716
+        },
+        {
+          "feature": "loan_intent_MEDICAL",
+          "mean_shap": 0.08872
+        },
+        {
+          "feature": "income_per_year_emp",
+          "mean_shap": 0.0848
+        }
+      ],
+      "metrics": {
+        "ks_statistic": 0.7562,
+        "threshold_0.5": {
+          "auc_roc": 0.9482,
+          "auc_pr": 0.8941,
+          "gini": 0.8963,
+          "precision": 0.8007,
+          "recall": 0.7996,
+          "f1": 0.8001,
+          "specificity": 0.9472,
+          "tp": 1093,
+          "fp": 272,
+          "tn": 4877,
+          "fn": 274,
+          "threshold": 0.5
+        },
+        "threshold_opt_f1": {
+          "auc_roc": 0.9482,
+          "auc_pr": 0.8941,
+          "gini": 0.8963,
+          "precision": 0.9129,
+          "recall": 0.744,
+          "f1": 0.8198,
+          "specificity": 0.9812,
+          "tp": 1017,
+          "fp": 97,
+          "tn": 5052,
+          "fn": 350,
+          "threshold": 0.6748
+        },
+        "threshold_cost": {
+          "auc_roc": 0.9482,
+          "auc_pr": 0.8941,
+          "gini": 0.8963,
+          "precision": 0.3337,
+          "recall": 0.9832,
+          "f1": 0.4983,
+          "specificity": 0.4789,
+          "tp": 1344,
+          "fp": 2683,
+          "tn": 2466,
+          "fn": 23,
+          "threshold": 0.1062
+        }
+      },
+      "cost_savings": {
+        "annual_applications": 50000,
+        "baseline_defaults": 10490,
+        "baseline_annual_cost": 70807500.0,
+        "ml_fn_approved_defaulters": 176,
+        "ml_fp_rejected_good": 20587,
+        "ml_annual_cost": 5805400.0,
+        "annual_savings": 65002100.0,
+        "roi_pct": 91.8,
+        "avg_loan_amount": 15000.0,
+        "loss_given_default": 0.45
+      }
+    },
+    "history": [
+      {
+        "timestamp": "2026-04-30T21:21:30.849216+00:00",
+        "auc_roc": 0.9482,
+        "gini": 0.8963,
+        "annual_savings": 65002100.0
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "summary": {
+    "fraud_annual_savings_usd": 2202910.0,
+    "credit_annual_savings_usd": 68499150.0,
+    "total_annual_savings_usd": 70702060.0,
+    "fraud_roi_pct": 70.3,
+    "credit_roi_pct": 92.3
+  },
+  "fraud_detail": {
+    "annual_tx": 10000000,
+    "annual_fraud": 17000,
+    "legacy_fp_alerts": 499150,
+    "legacy_fn_missed": 2550,
+    "legacy_annual_cost": 3133250.0,
+    "ml_fp_alerts": 9868,
+    "ml_fn_missed": 3524,
+    "ml_annual_cost": 930340.0,
+    "annual_savings": 2202910.0,
+    "roi_pct": 70.3
+  },
+  "credit_detail": {
+    "annual_applications": 50000,
+    "baseline_defaults": 11000,
+    "baseline_annual_cost": 74250000.0,
+    "ml_fn_approved_defaulters": 191,
+    "ml_fp_rejected_good": 19808,
+    "ml_annual_cost": 5750850.0,
+    "annual_savings": 68499150.0,
+    "roi_pct": 92.3
+  },
+  "model_performance": {
+    "fraud_auc_roc": 0.9409,
+    "credit_auc_roc": 0.9468,
+    "fraud_gini": 0.8818,
+    "credit_gini": 0.8936
+  }
+}
