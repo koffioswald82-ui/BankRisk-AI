@@ -26,3 +26,6 @@ models/shap/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local documentation (not for GitHub)
+GUIDE_COMPLET_PROJET.txt
