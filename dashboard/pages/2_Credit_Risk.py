@@ -1,8 +1,3 @@
-"""
-Credit Risk Scoring page.
-Shows model performance, KS statistic, score distribution, SHAP,
-and portfolio-level cost analysis.
-"""
 import json
 import sys
 from pathlib import Path
@@ -15,9 +10,12 @@ import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-from src.config import METRICS_DIR, MODELS_DIR, DATA_PROCESSED
+from src.config import METRICS_DIR, DATA_PROCESSED
+from dashboard.components.navbar import render_navbar
 
-st.set_page_config(page_title="Credit Risk", layout="wide")
+st.set_page_config(page_title="Credit Risk", layout="wide",
+                   initial_sidebar_state="collapsed")
+render_navbar()
 st.title("Credit Risk Scoring - Default Prediction")
 
 report_path = METRICS_DIR / "credit_xgboost_report.json"
@@ -31,8 +29,9 @@ if not report_path.exists():
 with open(report_path) as f:
     report = json.load(f)
 
-tab1, tab2, tab3, tab4 = st.tabs(["Performance", "Score Distribution",
-                                    "SHAP Explainability", "Portfolio Impact"])
+tab1, tab2, tab3, tab4 = st.tabs([
+    "Performance", "Score Distribution", "SHAP Explainability", "Portfolio Impact"
+])
 
 with tab1:
     m = report["threshold_opt_f1"]
@@ -42,22 +41,19 @@ with tab1:
     col2.metric("Gini",         m["gini"])
     col3.metric("KS Statistic", report["ks_statistic"],
                 help="KS > 0.4 is considered good in credit risk")
-    col4.metric("Recall",       m["recall"],  help="Defaulters correctly flagged")
+    col4.metric("Recall",       m["recall"],    help="Defaulters correctly flagged")
     col5.metric("Precision",    m["precision"])
-
     st.caption(f"Metrics at F1-optimal threshold = {m['threshold']}")
     st.divider()
 
     col_roc, col_pr = st.columns(2)
-
     with col_roc:
         st.subheader("ROC Curve")
         if roc_path.exists():
             roc = pd.read_parquet(roc_path)
             fig = px.area(roc, x="fpr", y="tpr",
                           title=f"ROC - AUC = {m['auc_roc']}",
-                          labels={"fpr": "False Positive Rate",
-                                  "tpr": "True Positive Rate"})
+                          labels={"fpr": "False Positive Rate", "tpr": "True Positive Rate"})
             fig.add_shape(type="line", x0=0, y0=0, x1=1, y1=1,
                           line=dict(dash="dash", color="gray"))
             st.plotly_chart(fig, width='stretch')
@@ -67,10 +63,9 @@ with tab1:
         if pr_path.exists():
             pr = pd.read_parquet(pr_path)
             fig2 = px.area(pr, x="recall", y="precision",
-                           title=f"PR — AUC = {m['auc_pr']}")
+                           title=f"PR - AUC = {m['auc_pr']}")
             st.plotly_chart(fig2, width='stretch')
 
-    # Confusion Matrix
     st.subheader("Confusion Matrix")
     tp, fp = m["tp"], m["fp"]
     fn, tn = m["fn"], m["tn"]
@@ -80,10 +75,9 @@ with tab1:
         columns=["Predicted: No Default", "Predicted: Default"]
     )
     fig3 = px.imshow(cm_df, text_auto=True, color_continuous_scale="Oranges",
-                     title="Confusion Matrix — Credit Risk")
+                     title="Confusion Matrix - Credit Risk")
     st.plotly_chart(fig3, width='stretch')
 
-    # Model comparison
     st.subheader("Model Comparison")
     compare = pd.DataFrame([
         {"Model": "Logistic Regression (baseline)",
@@ -121,15 +115,11 @@ with tab2:
                                title="Default Rate by Loan Grade")
             st.plotly_chart(fig_grade, width='stretch')
 
-        # Loan intent breakdown
         intent_default = (df.groupby("loan_intent")["target"]
-                           .agg(["mean", "count"])
-                           .reset_index()
-                           .rename(columns={"mean": "default_rate",
-                                            "count": "n_loans"}))
+                           .agg(["mean", "count"]).reset_index()
+                           .rename(columns={"mean": "default_rate", "count": "n_loans"}))
         fig_intent = px.bar(intent_default, x="loan_intent", y="default_rate",
-                            color="default_rate",
-                            color_continuous_scale="Reds",
+                            color="default_rate", color_continuous_scale="Reds",
                             hover_data=["n_loans"],
                             title="Default Rate by Loan Intent")
         st.plotly_chart(fig_intent, width='stretch')
@@ -137,7 +127,7 @@ with tab2:
         st.info("Run the credit pipeline to generate processed data.")
 
 with tab3:
-    st.subheader("SHAP Feature Importance — Risque Crédit")
+    st.subheader("SHAP Feature Importance - Credit Risk")
     shap_summary = report.get("shap_summary") or {}
     top_features = shap_summary.get("top_features") or []
     feat_df = pd.DataFrame(top_features) if top_features else pd.DataFrame()
@@ -152,7 +142,7 @@ with tab3:
             textposition="outside",
         ))
         fig4.update_layout(
-            title="Top Features - Prediction du Defaut (Mean |SHAP|)",
+            title="Top Features - Default Prediction (Mean |SHAP|)",
             xaxis_title="Mean |SHAP value|",
             yaxis=dict(autorange="reversed"),
             plot_bgcolor="white", paper_bgcolor="white",
@@ -160,42 +150,40 @@ with tab3:
         )
         st.plotly_chart(fig4, width='stretch')
         st.markdown("""
-        | Feature | Signification business |
+        | Feature | Business meaning |
         |---|---|
-        | `loan_int_rate` | Taux eleve - risque percu plus fort |
-        | `debt_to_income` | Ratio d'endettement - coeur de la solvabilite |
-        | `grade_numeric` | Note de risque interne - predicteur le plus fort |
-        | `monthly_payment_est` | Capacite a rembourser la mensualite |
-        | `historical_default` | Comportement passe predit le futur |
-        | `cred_hist_length` | Anciennete historique = moins d'incertitude |
+        | `loan_int_rate` | High rate = higher perceived risk |
+        | `debt_to_income` | Debt ratio - core of creditworthiness |
+        | `grade_numeric` | Internal risk score - strongest predictor |
+        | `monthly_payment_est` | Ability to repay the monthly instalment |
+        | `historical_default` | Past behaviour predicts future behaviour |
+        | `cred_hist_length` | Longer history = less uncertainty |
         """)
     else:
-        st.info("SHAP non disponible - relancez le pipeline credit.")
+        st.info("SHAP not available - re-run the credit pipeline.")
 
 with tab4:
     st.subheader("Portfolio-Level Cost & ROI Analysis")
     s = report["cost_savings"]
 
     col1, col2, col3 = st.columns(3)
-    col1.metric("Baseline Annual Loss",   f"${s['baseline_annual_cost']:,.0f}",
-                help="Approve everyone — pure default losses")
-    col2.metric("ML Annual Cost",         f"${s['ml_annual_cost']:,.0f}")
-    col3.metric("Net Annual Savings",     f"${s['annual_savings']:,.0f}",
+    col1.metric("Baseline Annual Loss", f"${s['baseline_annual_cost']:,.0f}",
+                help="Approve everyone - pure default losses")
+    col2.metric("ML Annual Cost",       f"${s['ml_annual_cost']:,.0f}")
+    col3.metric("Net Annual Savings",   f"${s['annual_savings']:,.0f}",
                 f"ROI {s['roi_pct']} %")
 
     st.divider()
 
-    # Threshold vs approval rate vs savings (simulated)
     thresholds = np.linspace(0.1, 0.9, 50)
     loan  = 15_000
     lgd   = 0.45
     base_default_rate = 0.22
     base_cost = 50_000 * base_default_rate * loan * lgd
 
-    # Simplified simulation: higher threshold → fewer defaults approved, more goods rejected
     sim_rows = []
     for t in thresholds:
-        approvals     = 1 - t * 0.8           # approval rate shrinks with threshold
+        approvals      = 1 - t * 0.8
         defaults_saved = t * 0.7 * base_cost
         good_rejected  = t * 0.3 * 50_000 * 200
         net_savings    = defaults_saved - good_rejected
@@ -209,7 +197,7 @@ with tab4:
                               name="Net Savings (USD)", line=dict(color="#00CC96")))
     fig5.add_trace(go.Scatter(x=sim_df["threshold"],
                               y=sim_df["approval_rate"] * 1_000_000,
-                              name="Approval Rate × 1M (proxy)",
+                              name="Approval Rate x 1M (proxy)",
                               line=dict(color="#636EFA", dash="dash"),
                               yaxis="y2"))
     fig5.update_layout(
@@ -221,7 +209,6 @@ with tab4:
         height=400,
     )
     st.plotly_chart(fig5, width='stretch')
-
     st.info("In production: threshold is calibrated monthly against portfolio "
             "vintage performance and regulatory capital requirements (Basel III).")
 
@@ -229,6 +216,6 @@ st.markdown("---")
 st.markdown(
     "<div style='text-align:center; color:#64748b; font-size:13px; padding:10px 0;'>"
     "BankRisk AI Engine &nbsp;|&nbsp; XGBoost + SMOTE + SHAP<br>"
-    "<strong>Realise par Oswald Jaures KOFFI</strong></div>",
+    "<strong>Designed by Oswald Jaures KOFFI</strong></div>",
     unsafe_allow_html=True,
 )
