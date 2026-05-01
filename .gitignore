@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Large raw data files — ne jamais committer (relancer le pipeline)
+creditcard.csv
+LoanDataset*.csv
+data/raw/
+data/interim/
+
+# Processed data — seul credit_clean.parquet est inclus (utilise par le dashboard)
+data/processed/fraud_clean.parquet
+
+# Model binaries (lourds, regeneres par le pipeline)
+models/*.joblib
+models/shap/
+
+# Streamlit secrets uniquement (config.toml est inclus)
+.streamlit/secrets.toml
+
+# OS
+.DS_Store
+Thumbs.db
