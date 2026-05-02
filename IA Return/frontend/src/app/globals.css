@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    --radius: 0.625rem;
+  }
+
+  * {
+    @apply border-slate-800;
+  }
+
+  body {
+    @apply bg-surface-950 text-slate-100;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-surface-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-600;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface-900/60 backdrop-blur-xl border border-slate-800/60 rounded-xl;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:border-brand-600/40 hover:shadow-glow-brand;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-400 to-accent-cyan;
+  }
+
+  .kpi-value {
+    @apply text-3xl font-bold text-white tabular-nums;
+  }
+
+  .kpi-label {
+    @apply text-xs font-medium text-slate-400 uppercase tracking-widest;
+  }
+
+  .section-header {
+    @apply text-lg font-semibold text-white mb-1;
+  }
+
+  .section-sub {
+    @apply text-sm text-slate-500;
+  }
+
+  .badge-tier {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+           text-slate-400 hover:text-white hover:bg-surface-800 transition-all duration-200;
+  }
+
+  .nav-item-active {
+    @apply nav-item text-white bg-brand-600/20 border border-brand-600/30;
+  }
+
+  .metric-positive {
+    @apply text-accent-emerald;
+  }
+
+  .metric-negative {
+    @apply text-accent-rose;
+  }
+
+  .metric-neutral {
+    @apply text-accent-amber;
+  }
+}
+
+@layer utilities {
+  .text-gradient-brand {
+    @apply bg-gradient-to-r from-brand-400 to-accent-cyan bg-clip-text text-transparent;
+  }
+
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+}
